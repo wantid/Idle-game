@@ -4,6 +4,7 @@ public class PlayerStats : MonoBehaviour
 {
     public float Multiplier;
     [HideInInspector] public float Income;
+    public TextMesh textMesh;
 
     private int CurrentLevel;
 
@@ -18,6 +19,7 @@ public class PlayerStats : MonoBehaviour
         {
             Income = tmp[1];
             CurrentLevel++;
+            textMesh.text = $"{CurrentLevel}";
         }
 
         return balance - tmp[0];

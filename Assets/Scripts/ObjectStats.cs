@@ -4,6 +4,7 @@ public class ObjectStats : MonoBehaviour
 {
     public float Price;
     [HideInInspector] public float Income;
+    public TextMesh textMesh;
 
     private int CurrentLevel;
 
@@ -18,6 +19,7 @@ public class ObjectStats : MonoBehaviour
         {
             Income = tmp[1];
             CurrentLevel++;
+            textMesh.text = $"{CurrentLevel}";
         }
 
         return balance - tmp[0];
