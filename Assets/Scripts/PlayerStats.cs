@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class PlayerStats : MonoBehaviour
 {
-    private int CurrentLevel;
-    private float Multiplier;
+    public float Multiplier;
+    [HideInInspector] public float Income;
 
-    public float Income;
+    private int CurrentLevel;
 
     public float NewLevel(float balance)
     {

@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class ObjectStats : MonoBehaviour
 {
-    private int CurrentLevel;
-    private float Price;
+    public float Price;
+    [HideInInspector] public float Income;
 
-    public float Income;
+    private int CurrentLevel;
 
     public float ObjectUpgrade(float balance)
     {

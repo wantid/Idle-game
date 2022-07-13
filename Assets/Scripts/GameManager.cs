@@ -3,15 +3,26 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public float Balance;
-
     public Camera MainCamera;
     public Text BalanceText;
+    public Transform ObjectsParent;
+
+    private float Balance;
 
     private void Update()
     {
         TouchHandler();
         BalanceTextUpdate();
+    }
+    public void BalanceIncrease()
+    {
+        float chg = 0;
+
+        foreach (Transform child in ObjectsParent)
+            chg += child.GetComponent<ObjectStats>().Income;
+
+        Debug.Log($"Income: {chg}");
+        Balance += chg;
     }
     private void BalanceTextUpdate()
     {
