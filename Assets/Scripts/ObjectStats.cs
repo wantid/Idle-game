@@ -7,7 +7,7 @@ public class ObjectStats : MonoBehaviour
     private int CurrentLevel;
 
     private float Price { get { return initialPrice + CurrentLevel * Mathf.Pow(1.2f, CurrentLevel); } }
-    [HideInInspector] public float Income { get { return initialPrice * Mathf.Pow(1.1f, CurrentLevel); } }
+    [HideInInspector] public float Income { get { return CurrentLevel * initialPrice * Mathf.Pow(1.1f, CurrentLevel); } }
 
     private void Start()
     {

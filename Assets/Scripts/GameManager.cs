@@ -23,12 +23,12 @@ public class GameManager : MonoBehaviour
     }
     public void BalanceIncrease()
     {
-        float chg = 1;
-
-        chg += Player.Income;
+        float chg = 0;
 
         foreach (Transform child in ObjectsParent)
             chg += child.GetComponent<ObjectStats>().Income;
+
+        chg = Player.Income * (1 + chg / ObjectsParent.childCount);
 
         Debug.Log($"Income: {chg}");
         Balance += chg;
