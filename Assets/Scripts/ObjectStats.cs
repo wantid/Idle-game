@@ -19,12 +19,14 @@ public class ObjectStats : MonoBehaviour
     }
     public float ObjectUpgrade(float balance)
     {
-        if (balance >= Price)
+        float chg = balance - Price;
+
+        if (chg >= 0)
         {
             CurrentLevel++;
             TextUpdate();
         }
 
-        return balance - Price;
+        return chg;
     }
 }
