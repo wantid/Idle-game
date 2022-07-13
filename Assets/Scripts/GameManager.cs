@@ -1,18 +1,41 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public float Balance;
 
-    // Update is called once per frame
-    void Update()
+    public Camera MainCamera;
+    public Text BalanceText;
+
+    private void Update()
     {
-        
+        TouchHandler();
+        BalanceTextUpdate();
+    }
+    private void BalanceTextUpdate()
+    {
+        BalanceText.text = $"{Balance}$";
+    }
+    private void TouchHandler()
+    {
+        RaycastHit hit;
+        float chg = -1;
+
+        if (Physics.Raycast(MainCamera.ScreenPointToRay(Input.mousePosition), out hit))
+        {
+            switch (hit.collider.tag)
+            {
+                case "Player":
+                    chg = hit.collider.GetComponent<PlayerStats>().NewLevel(Balance);
+                    break;
+                case "Object":
+                    chg = hit.collider.GetComponent<ObjectStats>().ObjectUpgrade(Balance);
+                    break;
+                default: return;
+            }
+        }
+
+        if (chg >= 0) Balance = chg;
     }
 }
