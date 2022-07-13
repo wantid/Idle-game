@@ -3,25 +3,29 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     public float Multiplier;
-    [HideInInspector] public float Income;
-    public TextMesh textMesh;
-
     private int CurrentLevel;
 
+    public TextMesh textMesh;
+
+    [HideInInspector] public float Income { get { return 1 + Multiplier * CurrentLevel; } }
+    private float Price { get { return Multiplier * Mathf.Pow(1.2f, CurrentLevel); } }
+
+    private void Start()
+    {
+        TextUpdate();
+    }
+    private void TextUpdate()
+    {
+        textMesh.text = $"Lvl.{CurrentLevel}\nPrice {Price}\nIncome {Income}";
+    }
     public float NewLevel(float balance)
     {
-        float[] tmp = new float[2]; // [0] - price; [1] - income.
-
-        tmp[0] = Multiplier * Mathf.Pow(1.2f, CurrentLevel);
-        tmp[1] = Multiplier * CurrentLevel;
-
-        if (balance > tmp[0])
+        if (balance >= Price)
         {
-            Income = tmp[1];
             CurrentLevel++;
-            textMesh.text = $"{CurrentLevel}";
+            TextUpdate();
         }
 
-        return balance - tmp[0];
+        return balance - Price;
     }
 }

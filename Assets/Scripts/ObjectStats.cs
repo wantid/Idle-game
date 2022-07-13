@@ -2,26 +2,29 @@ using UnityEngine;
 
 public class ObjectStats : MonoBehaviour
 {
-    public float Price;
-    [HideInInspector] public float Income;
+    public float initialPrice;
     public TextMesh textMesh;
-
     private int CurrentLevel;
 
+    private float Price { get { return initialPrice + CurrentLevel * Mathf.Pow(1.2f, CurrentLevel); } }
+    [HideInInspector] public float Income { get { return initialPrice * Mathf.Pow(1.1f, CurrentLevel); } }
+
+    private void Start()
+    {
+        TextUpdate();
+    }
+    private void TextUpdate()
+    {
+        textMesh.text = $"Lvl.{CurrentLevel}\nPrice {Price}\nIncome {Income}";
+    }
     public float ObjectUpgrade(float balance)
     {
-        float[] tmp = new float[2]; // [0] - price; [1] - income.
-
-        tmp[0] = Price + CurrentLevel * Mathf.Pow(1.2f, CurrentLevel);
-        tmp[1] = Price * Mathf.Pow(1.1f, CurrentLevel);
-
-        if (balance > tmp[0])
+        if (balance >= Price)
         {
-            Income = tmp[1];
             CurrentLevel++;
-            textMesh.text = $"{CurrentLevel}";
+            TextUpdate();
         }
 
-        return balance - tmp[0];
+        return balance - Price;
     }
 }

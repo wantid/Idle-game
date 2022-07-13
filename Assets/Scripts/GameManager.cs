@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
     }
     public void BalanceIncrease()
     {
-        float chg = 0;
+        float chg = 1;
 
         chg += Player.Income;
 
@@ -39,23 +39,27 @@ public class GameManager : MonoBehaviour
     }
     private void TouchHandler()
     {
-        RaycastHit hit;
-        float chg = -1;
-
-        if (Physics.Raycast(MainCamera.ScreenPointToRay(Input.mousePosition), out hit))
+        if (Input.GetMouseButtonUp(0))
         {
-            switch (hit.collider.tag)
-            {
-                case "Player":
-                    chg = hit.collider.GetComponent<PlayerStats>().NewLevel(Balance);
-                    break;
-                case "Object":
-                    chg = hit.collider.GetComponent<ObjectStats>().ObjectUpgrade(Balance);
-                    break;
-                default: return;
-            }
-        }
 
-        if (chg >= 0) Balance = chg;
+            RaycastHit hit;
+            float chg = -1;
+
+            if (Physics.Raycast(MainCamera.ScreenPointToRay(Input.mousePosition), out hit))
+            {
+                switch (hit.collider.tag)
+                {
+                    case "Player":
+                        chg = hit.collider.GetComponent<PlayerStats>().NewLevel(Balance);
+                        break;
+                    case "Object":
+                        chg = hit.collider.GetComponent<ObjectStats>().ObjectUpgrade(Balance);
+                        break;
+                    default: return;
+                }
+            }
+
+            if (chg >= 0) Balance = chg;
+        }
     }
 }
