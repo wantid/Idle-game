@@ -6,9 +6,16 @@ public class GameManager : MonoBehaviour
     public Camera MainCamera;
     public Text BalanceText;
     public Transform ObjectsParent;
+    public PlayerStats Player;
+
+    [HideInInspector] public static GameManager instance;
 
     private float Balance;
 
+    private void Awake()
+    {
+        instance = this;
+    }
     private void Update()
     {
         TouchHandler();
@@ -17,6 +24,8 @@ public class GameManager : MonoBehaviour
     public void BalanceIncrease()
     {
         float chg = 0;
+
+        chg += Player.Income;
 
         foreach (Transform child in ObjectsParent)
             chg += child.GetComponent<ObjectStats>().Income;
