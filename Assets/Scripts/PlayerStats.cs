@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerStats : MonoBehaviour
 {
     public float Multiplier;
-    private int CurrentLevel;
+    [HideInInspector] public int CurrentLevel;
 
     public TextMesh textMesh;
 

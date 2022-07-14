@@ -14,12 +14,18 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        DontDestroyOnLoad(gameObject);
         instance = this;
+        //LoadData();
     }
     private void Update()
     {
         TouchHandler();
         BalanceTextUpdate();
+    }
+    private void OnApplicationQuit()
+    {
+        //SaveAll();
     }
     public void BalanceIncrease()
     {
