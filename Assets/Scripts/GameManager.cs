@@ -5,44 +5,66 @@ public class GameManager : MonoBehaviour
 {
     public Camera MainCamera;
     public Text BalanceText;
-    public Transform ObjectsParent;
-    public PlayerStats Player;
 
+    public float Balance;
+
+    [HideInInspector] public Transform ObjectsParent;
+    [HideInInspector] public PlayerStats Player;
     [HideInInspector] public static GameManager instance;
 
-    private float Balance;
+    private SaveManager saveManager;
 
     private void Awake()
     {
         DontDestroyOnLoad(gameObject);
         instance = this;
-        //LoadData();
+
+        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerStats>();
+        ObjectsParent = GameObject.FindGameObjectWithTag("ParentObject").transform;
+
+        saveManager = GetComponent<SaveManager>();
     }
+
+    private void Start()
+    {
+        saveManager.LoadData();
+    }
+
     private void Update()
     {
         TouchHandler();
         BalanceTextUpdate();
     }
+
     private void OnApplicationQuit()
     {
-        //SaveAll();
+        saveManager.SaveData();
     }
-    public void BalanceIncrease()
+
+    public float CountIncome()
     {
-        float chg = 0;
+        float totalIncome = 0;
 
         foreach (Transform child in ObjectsParent)
-            chg += child.GetComponent<ObjectStats>().Income;
+            totalIncome += child.GetComponent<ObjectStats>().Income;
 
-        chg = Player.Income * (1 + chg / ObjectsParent.childCount);
+        totalIncome = Player.Income * (1 + totalIncome / ObjectsParent.childCount);
 
+        return totalIncome;
+    }
+
+    public void BalanceIncrease()
+    {
+        float chg = CountIncome();
         Debug.Log($"Income: {chg}");
         Balance += chg;
     }
+
     private void BalanceTextUpdate()
     {
         BalanceText.text = $"{Balance}$";
     }
+    
     private void TouchHandler()
     {
         if (Input.GetMouseButtonUp(0))

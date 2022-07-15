@@ -13,10 +13,12 @@ public class ObjectStats : MonoBehaviour
     {
         TextUpdate();
     }
+
     private void TextUpdate()
     {
         textMesh.text = $"Lvl.{CurrentLevel}\nPrice {Price}\nIncome {Income}";
     }
+
     public float ObjectUpgrade(float balance)
     {
         float chg = balance - Price;
@@ -28,5 +30,11 @@ public class ObjectStats : MonoBehaviour
         }
 
         return chg;
+    }
+
+    public void ChangeLevel(int newLevel)
+    {
+        CurrentLevel = newLevel;
+        TextUpdate();
     }
 }
