@@ -9,6 +9,7 @@ public class SaveManager : MonoBehaviour
     {
         Transform parent = GameManager.instance.ObjectsParent;
 
+        PlayerPrefs.SetInt("Continue", 1);
         PlayerPrefs.SetFloat("Balance", GameManager.instance.Balance);
         PlayerPrefs.SetInt("PlayerLVL", GameManager.instance.Player.CurrentLevel);
 
@@ -27,16 +28,19 @@ public class SaveManager : MonoBehaviour
         DateTime lastDate;
         int difference;
 
-        GameManager.instance.Balance = PlayerPrefs.GetFloat("Balance");
-        GameManager.instance.Player.ChangeLevel(PlayerPrefs.GetInt("PlayerLVL"));
+        if (PlayerPrefs.GetInt("Continue") == 1)
+        {
+            GameManager.instance.Balance = PlayerPrefs.GetFloat("Balance");
+            GameManager.instance.Player.ChangeLevel(PlayerPrefs.GetInt("PlayerLVL"));
 
-        for (int i = 0; i < parent.childCount; i++)
-            parent.GetChild(i).GetComponent<ObjectStats>().ChangeLevel(PlayerPrefs.GetInt($"Object{i}LVL"));
+            for (int i = 0; i < parent.childCount; i++)
+                parent.GetChild(i).GetComponent<ObjectStats>().ChangeLevel(PlayerPrefs.GetInt($"Object{i}LVL"));
 
-        DateTime.TryParse(PlayerPrefs.GetString("Date"), out lastDate);
-        TimeSpan span = DateTime.Now.Subtract(lastDate);
-        difference = (int)span.TotalSeconds;
-        GameManager.instance.Balance += difference * GameManager.instance.CountIncome();
+            DateTime.TryParse(PlayerPrefs.GetString("Date"), out lastDate);
+            TimeSpan span = DateTime.Now.Subtract(lastDate);
+            difference = (int)span.TotalSeconds;
+            GameManager.instance.Balance += difference * GameManager.instance.CountIncome();
+        }
     }
 
     [ContextMenu("RemoveData")]
